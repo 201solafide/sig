@@ -6,15 +6,16 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Load GeoJSON
-fetch('/static/data/embung_gis_baru.geojson')
+fetch('/static/data/embung_gis_baru1.geojson')
+// fetch('http://127.0.0.1:3000/api/embung')
     .then(response => response.json())
     .then(data => {
         var geoJsonLayer = L.geoJSON(data, {
             onEachFeature: function (feature, layer) {
                 layer.bindPopup(`
                     <b>${feature.properties.Name}</b><br>
-                    Luas: ${feature.properties.luas} m <br>
-                    Keliling: ${feature.properties.keliling}
+                    Luas: ${feature.properties.Luas_m2} m²<br>
+                    Keliling: ${feature.properties.Keliling_m} m
                 `);
             }
         }).addTo(map);
