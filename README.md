@@ -56,12 +56,7 @@ Pastikan telah mengistall python 3.x kemudian jalankan:
 pip install -r requirements.txt
 pip install Flask psycopg2
 ```
-### 3️⃣ Install Dependencies Node.js
-Pastikan **Node.js** sudah terinstall. Jalankan :
-```sh
-npm install
-```
-### 4️⃣ Buat Folder Berikut
+### 3️⃣ Buat Folder Berikut
 Pastikan struktur folder seperti berikut :
 templates/
   ├── index.html
@@ -72,10 +67,10 @@ static/
   ├── images/
   ├── img/
   └── js/
-          └── mapping.js
+      └── mapping.js
 node_modules/
 
-### 5️⃣ Jalankan Aplikasi
+### 4️⃣ Jalankan Aplikasi
 Jalankan perintah berikut unutk menjalankan server Flask :
 ```sh
 python app.py
