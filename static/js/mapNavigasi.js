@@ -1,174 +1,109 @@
 var map = L.map('map').setView([-5.360092, 105.314564], 15);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap GIS Embung'
+    maxZoom: 19
 }).addTo(map);
 
-// menambahin variabel untuk waypoin dulu
-let control = L.Routing.control({
-    waypoints: [],
-
-    routeWhileDragging: true,
-    router: L.Routing.osrmv1({
-        serviceUrl: 'https://router.project-osrm.org/route/v1'
-    }),
-    lineOptions: {
-        styles: [{color: 'blue', weight: 3}]
-    },
-    show: false
-});
+var kawasanSHP = L.geoJSON(null, {
+    style: {
+        color: "#3388ff",
+        weight: 2,
+        fillcolor: "#6ca0dc",
+        fillopacity: 0.4
+    }
+}).addTo(map);
 
 fetch('http://127.0.0.1:3000/api/embung')
     .then(response => response.json())
     .then(data => {
+        kawasanSHP.addData(data);
         var geojsonLayer = L.geoJSON(data.features, {
-            interactive: true,
             onEachFeature: function (feature, layer) {
-                // console.log(feature); // Lihat struktur feature
-                // console.log(feature.properties); // Pastikan properties ada
-                // console.log(feature.properties.Keliling_m); // Pastikan properties ada
-                layer.bindPopup(`
-                    <b>Nama:</b> ${feature.properties.Name || "Tidak Ada Data"}<br>
-                    <b>Luas:</b> ${feature.properties.Luas_m2 || "Tidak Ada Data"} m²<br>
-                    <b>Keliling:</b> ${feature.properties.Keliling_m || "Tidak Ada Data"} m <br>
-                `);
+                layer.on('click', function () {
+                    const content = `
+                        <div class="popup-content">
+                            <table border="1px">
+                                <tr>
+                                    <td colspan="2">
+                                        <img src="${feature.properties.Image}" alt="${feature.properties.Name}" class="popup-image">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h2>${feature.properties.Name || "Tidak Ada Data"}</h2>
+                                    </td>
+                                    <td>
+                                        <button id="navigate" class="btn btn-primary mt-2">
+                                            <img src="/static/images/navigasi.avif" alt="Navigate">
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Luas</b></td>
+                                    <td>: ${feature.properties.Luas_m2 || "Tidak Ada Data"} m²</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Kedalaman</b></td>
+                                    <td>: ${feature.properties.Kedalaman_m || "Tidak Ada Data"} m</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Keliling</b></td>
+                                    <td>: ${feature.properties.Keliling_m || "Tidak Ada Data"} m</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Kapasitas</b></td>
+                                    <td>: ${feature.properties.Kapasitas_m3 || "Tidak Ada Data"} m³</td>
+                                </tr>
+                            </table>
+                        </div>
+                    `;
+                    layer.bindPopup(content).openPopup();
+
+                    layer.on('popupopen', () => {
+                        const navigateButton = document.getElementById('navigate');
+                        navigateButton.addEventListener('click', () => navigateToEmbung(feature));
+                    });
+                });
             }
         }).addTo(map);
+    })
+    .catch(error => console.error('Error fetching GeoJSON:', error));
 
-        // menambahkan fitur pencarian
-        var searchControl = new L.Control.Search({
-            layer: geojsonLayer,
-            propertyName: 'Name',
-            marker: false,
-            moveToLocation: function(latlng, title){
-                map.setView(latlng, 18);
-            }
-        });
-        map.addControl(searchControl);
-
-    });
-
-// variabel untuk lokasi saat ini
-var currentLocation = null;
-
-// Geolocation = Location pengguna (navigasi)
-map.locate({setView: true, maxZoom: 16});
-map.on('locationfound', function(e){
-    currentLocation: e.latlng;
-    L.marker(currentLocation).addTo(map).bindPopup('Lokasi sekarang').openPopup();
-});
-
-// fungsi untuk menavigasi
-
-function setDestination(lat, lng, name){
-    if(currentLocation){
-        control.setWaypoints([
-            L.latlng(currentLocation.lat, currentLocation.lng),
-            L.latlng(lat, lng)
-        ]);
-    }else {
-        alert("lokasi tidak ditemukan");
-    }
-}
-
-// fungsi rute manual
-function manualRouting(lat1, lng1, lat2, lng2){
-        styles: [{ color: 'blue', weight: 4 }]
-    }
-    // show: false
-}.addTo(map);
-
-// Ambil data GeoJSON embung
-fetch('http://127.0.0.1:3000/api/embung')
-    .then(response => response.json())
-    .then(data => {
-        // Tambahkan layer GeoJSON ke peta
-        // var geojsonLayer = L.geoJSON(data.features, {
-        //     onEachFeature: function (feature, layer) {
-        //         layer.bindPopup(`
-        //             <b>Nama:</b> ${feature.properties.Name || "Tidak Ada"}<br>
-        //             <b>Luas:</b> ${feature.properties.Luas_m2 || "Tidak Ada"} m²<br>
-        //             <button onclick="setDestination(${layer.getLatLng().lat}, ${layer.getLatLng().lng}, '${feature.properties.Name}')">
-        //                 Navigasi ke sini
-        //             </button>
-        //         `);
-        //     }
-        // }).addTo(map);
-        var geojsonLayer = L.geoJSON(data, {
-            onEachFeature: onEachFeature
-        }).addTo(map);
-
-        // Tambahkan fitur pencarian
-        var searchControl = new L.Control.Search({
-            layer: geojsonLayer, // Layer GeoJSON yang digunakan
-            propertyName: 'Name', // Properti pada GeoJSON yang akan dicari
-            marker: false,
-            moveToLocation: function(latlng, title, map) {
-                map.setView(latlng, 16); // Zoom ke lokasi
-            }
-        });
-        map.addControl(searchControl);
-        
-        searchControl.on('search:locationfound', function (e) {
-            if (waypoints.length < 2){
-                addWaypoint(e.latlng)
-            }
-        });
-    });
-
-// Variabel untuk lokasi saat ini
-var currentLocation = null;
-
-// Geolocation - mendapatkan lokasi pengguna
-map.locate({ setView: true, maxZoom: 16 });
-map.on('locationfound', function (e) {
-    currentLocation = e.latlng;
-    L.marker(currentLocation).addTo(map)
-        .bindPopup('Lokasi Anda Sekarang').openPopup();
-});
-
-function onEachFeature(feature, layer){
-    if (feature.properties && feature.properties.Name){
-        layer.bindPopup(`
-            <b>Nama:</b> ${feature.properties.Name || "Tidak Ada"}<br>
-            <b>Luas:</b> ${feature.properties.Luas_m2 || "Tidak Ada"} m²<br>
-            <b>Keliling:</b> ${feature.properties.Keliling_m || "Tidak ada"} m <br>
-            <button><img style="width: 100px; height: 100px;" src="/static/images/search-icon.jpeg" alt="logo-search"> </button>
-            <button>navigasiHere</button>
-    
-        `);   
+function navigateToEmbung(feature) {
+    if (!navigator.geolocation) {
+        alert("Geolocation tidak didukung di browser Anda.");
+        return;
     }
 
-    // listener klik layer 
-    layer.on('click', function() {
-        let center;
-        if (layer.getLatLng){
-            center = layer.getLatLng(); //untuk point
-        } else if (layer.getBounds){
-            center = layer.getBounds().getCenter(); // untuk polygon atau linestyring
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const userLatLng = [position.coords.latitude, position.coords.longitude];
+            const embungLatLng = [
+                feature.geometry.coordinates[1], // Latitude embung
+                feature.geometry.coordinates[0]  // Longitude embung
+            ];
+
+            L.marker(userLatLng, { title: "Lokasi Anda" })
+                .addTo(map)
+                .bindPopup("Lokasi Anda").openPopup();
+
+            L.Routing.control({
+                waypoints: [
+                    L.latLng(userLatLng),
+                    L.latLng(embungLatLng)
+                ],
+                routeWhileDragging: true,
+                router: L.Routing.osrmv1({
+                    serviceUrl: 'https://router.project-osrm.org/route/v1'
+                })
+            }).addTo(map);
+        },
+        (error) => {
+            alert("Gagal mendapatkan lokasi Anda.");
+            console.error(error);
         }
-        map.setView(center, 16); // zoom lokasi
-    });
+    );
 }
 
 
-// Fungsi untuk menavigasi
-function setDestination(lat, lng, name) {
-    if (currentLocation) {
-        control.setWaypoints([
-            L.latLng(currentLocation.lat, currentLocation.lng),  // Lokasi saat ini
-            L.latLng(lat, lng) // Lokasi embung
-        ]);
-    } else {
-        alert("Lokasi Anda tidak ditemukan! Pastikan GPS diaktifkan.");
-    }
-}
-
-// Fungsi untuk memilih rute manual dari dua embung
-function manualRouting(lat1, lng1, lat2, lng2) {
-    control.setWaypoints([
-        L.latLng(lat1, lng1),
-        L.latLng(lat2, lng2)
-    ]);
-}
+var baseMaps = {}

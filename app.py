@@ -48,7 +48,8 @@ def get_embung():
                             'Keliling_m', Keliling_m,
                             'Luas_m2', Luas_m2,
                             'Kedalaman_m', Kedalaman_m,
-                            'Kapasitas_m3', Kapasitas_m3
+                            'Kapasitas_m3', Kapasitas_m3,
+                            'Image', Image
                         )
                     )
                 )
