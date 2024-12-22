@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 var map = L.map('map').setView([-5.360092, 105.314564], 15);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -9,26 +8,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // menambahin variabel untuk waypoin dulu
 let control = L.Routing.control({
     waypoints: [],
-=======
-// Inisialisasi peta
-var map = L.map('map').setView([-5.360092, 105.314564], 13);
 
-// Layer OpenStreetMap
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-// Variabel waypoint
-let control = L.Routing.control({
-    waypoints: [], // Mulai dengan kosong
->>>>>>> 5aa844d (Merge remote-tracking branch 'origin/main')
     routeWhileDragging: true,
     router: L.Routing.osrmv1({
         serviceUrl: 'https://router.project-osrm.org/route/v1'
     }),
     lineOptions: {
-<<<<<<< HEAD
         styles: [{color: 'blue', weight: 3}]
     },
     show: false
@@ -89,11 +74,10 @@ function setDestination(lat, lng, name){
 
 // fungsi rute manual
 function manualRouting(lat1, lng1, lat2, lng2){
-=======
         styles: [{ color: 'blue', weight: 4 }]
     }
     // show: false
-}).addTo(map);
+}.addTo(map);
 
 // Ambil data GeoJSON embung
 fetch('http://127.0.0.1:3000/api/embung')
@@ -183,7 +167,6 @@ function setDestination(lat, lng, name) {
 
 // Fungsi untuk memilih rute manual dari dua embung
 function manualRouting(lat1, lng1, lat2, lng2) {
->>>>>>> 5aa844d (Merge remote-tracking branch 'origin/main')
     control.setWaypoints([
         L.latLng(lat1, lng1),
         L.latLng(lat2, lng2)

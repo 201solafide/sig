@@ -16,20 +16,13 @@ try:
 except Exception as e:
     print(f"lost: {e}")
 
-<<<<<<< HEAD
-=======
-# endpoint untuk index.html
->>>>>>> 5aa844d (Merge remote-tracking branch 'origin/main')
 @app.route('/')
 def home():
     return render_template('index.html')
 
-<<<<<<< HEAD
-=======
 @app.route('/map')
 def map_page():
     return render_template('map.html')
->>>>>>> 5aa844d (Merge remote-tracking branch 'origin/main')
 
 @app.route('/api/embung', methods=['GET'])
 def get_embung():
@@ -53,13 +46,9 @@ def get_embung():
                             'Shape_Le_1', Shape_Le_1,
                             'Shape_Area', Shape_Area,
                             'Keliling_m', Keliling_m,
-<<<<<<< HEAD
-                            'Luas_m2', Luas_m2
-=======
                             'Luas_m2', Luas_m2,
                             'Kedalaman_m', Kedalaman_m,
                             'Kapasitas_m3', Kapasitas_m3
->>>>>>> 5aa844d (Merge remote-tracking branch 'origin/main')
                         )
                     )
                 )
