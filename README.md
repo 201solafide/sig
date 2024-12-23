@@ -10,7 +10,6 @@ Website ini dirancang untuk memberikan informasi yang lengkap mengenai embung ya
 ## Tech
 Aplikasi ini dibangun dengan menggunakan :
 
-- [Google Chrome](https://www.google.com/chrome) - Aplikasi Google Chrome adalah browser web cepat yang tersedia tanpa biaya yang merupakan tools penting dalam membuat sebuah halaman website, dsb.
 - [Flask] - Flask adalah frmaework web ringan berbasis python yang dirancang untuk membangun aplikasi web dengan cepat dan sederhana.
 - [HTML] - Hypertext Markup Language, yaitu bahasa markup standar untuk membuat dan menyusun halaman dan aplikasi web.
 - [CSS] - Cascading style yang berguna untuk menyederhanakan proses pembuatan website dengan mengatur elemen yang tertulis di bahasa markup.
