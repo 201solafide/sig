@@ -5,7 +5,7 @@ Website ini dirancang untuk memberikan informasi yang lengkap mengenai embung ya
 
 - Peta Interaktif✨
 - Pemantauan Kondisi
-- Ekplorasi Data
+- Eksplorasi Data 
 
 ## Tech
 Aplikasi ini dibangun dengan menggunakan :
