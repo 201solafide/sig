@@ -5,7 +5,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     // attribution: '&copy; OpenStreetMap GIS Embung'
 }).addTo(map);
 
-fetch('http://127.0.0.1:3000/api/embung')
+fetch('http://localhost:3000/api/embung')
     .then(response => response.json())
     .then(data => {
         var geojsonLayer = L.geoJSON(data.features, {

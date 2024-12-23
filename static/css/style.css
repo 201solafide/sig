@@ -57,11 +57,13 @@
 .card.active .card-text {
     color: #fff;
 }
+
 @media (max-width: 767.98px) {
-    .card:not(.active) {
+    .cardcrs:not(.active) {
         display: none;
     }
 }
+
 .footer {
     background-color: #e3f2fd;
     color: lightseagreen;
@@ -183,4 +185,17 @@
 #close-sidebar img {
     width: 20px;
     height: 20px;
+}
+
+.main-content {
+    margin-bottom: 100px;
+}
+
+.team {
+    margin-top: 200px;
+}
+
+.card-team {
+    background-color: lightseagreen;
+    color: #fff;
 }
