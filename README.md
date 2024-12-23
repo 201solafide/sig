@@ -13,6 +13,7 @@ Aplikasi ini dibangun dengan menggunakan :
 - [Flask] - Flask adalah frmaework web ringan berbasis python yang dirancang untuk membangun aplikasi web dengan cepat dan sederhana.
 - [HTML] - Hypertext Markup Language, yaitu bahasa markup standar untuk membuat dan menyusun halaman dan aplikasi web.
 - [CSS] - Cascading style yang berguna untuk menyederhanakan proses pembuatan website dengan mengatur elemen yang tertulis di bahasa markup.
+- [Javascript] - Javascript adalah bahasa pemrograman yang digunakan agar konten web menjadi lebih dinamis dan interaktif.
 - [Bootstrap] - Bootstrap merupakan sebuah library atay kumpulan dari berbagai fungsi yang terdapat di framework CSS dan dibuat secara khusus di bagian pengembangan pada front-end website.
 - [PgAdmin4] - PgAdmin4 merupakan alat manajemen basis data berbasis web yang digunakan untuk mengelola database PostgreSQL yang fungsinya adalah untuk mendukung penyimpanan dan pengelolaan data spasial melalui ektensi PostGIS.
 
